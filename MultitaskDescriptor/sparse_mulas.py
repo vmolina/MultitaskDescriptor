@@ -11,6 +11,7 @@ __author__ = 'victor'
 
 class SparseMuLas(object):
     beta = None
+
     def __init__(self, X, Y, tasks, lambda_1=None, lambda_2=None, beta=None, intercept=False,
                  name="sparseMultitaskLasso"):
         self.intercept = intercept
@@ -28,6 +29,7 @@ class SparseMuLas(object):
             raise Exception("Y must be a (n,1) dimensional array")
         if beta is None:
             self.beta = np.zeros((self.tasks.shape[1], self.X.shape[1]),dtype=np.float64)
+
     def optimize(self, max_iters=None):
         p= self.X.shape[1]
         tasks_n = self.tasks.shape[1]
