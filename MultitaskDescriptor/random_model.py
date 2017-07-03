@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.cross_validation import KFold
-
+import sys
 from MultitaskDescriptor.mulas import MSE
 from lasso_wrappers import DEFAULT_OPTIMIZER
 from mumulader import MuMuLaDer
@@ -34,6 +34,8 @@ class RandomMumulader(object):
             importance = np.zeros((self.tasks.shape[1], self.X.shape[1]), dtype=np.float32)
         # First round of bootstrap
         for b in xrange(self.B):
+            print b
+            sys.stdout.flush()
             boots1 = np.random.choice(np.arange(n), size=n, replace=True)
             boots2 = np.random.choice(np.arange(p), size=self.q1, replace=False)
             new_X = self.X[boots1, :][:, boots2]
@@ -82,6 +84,7 @@ class RandomMumulader(object):
             if self.kwargs.get('intercept',False):
                 boots2=list(boots2)
                 boots2.append(len(boots2))
+                boots2 = np.array(boots2)
             params['theta'][:, boots2] += model_params['theta'] / self.B
             params['alpha'][boots2, :] += model_params['alpha'] / self.B
 
